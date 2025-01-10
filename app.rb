@@ -61,60 +61,185 @@ get '/' do
     <html>
       <head>
         <title>URL Shortener</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
         <style>
+          :root {
+            --bg-primary: #1a1b1e;
+            --bg-secondary: #25262b;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --accent: #0ea5e9;
+            --accent-hover: #0284c7;
+            --error: #ef4444;
+            --success: #22c55e;
+          }
+
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+
           body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
           }
+
           .container {
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 5px;
-            margin-top: 20px;
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
           }
+
+          .card {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-top: 2rem;
+          }
+
+          h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--accent), #818cf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+          }
+
+          h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+          }
+
           input[type="text"] {
             width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 2px solid var(--bg-primary);
+            border-radius: 0.5rem;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
           }
+
+          input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+          }
+
           button {
-            background: #007bff;
-            color: white;
+            width: 100%;
+            padding: 1rem;
+            margin-top: 1rem;
             border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
+            border-radius: 0.5rem;
+            background-color: var(--accent);
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
+            transition: all 0.3s ease;
           }
+
           button:hover {
-            background: #0056b3;
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
           }
+
+          button:active {
+            transform: translateY(0);
+          }
+
+          .optional {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+          }
+
           #result {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: var(--bg-primary);
             display: none;
           }
-          .optional {
-            color: #666;
-            font-size: 0.9em;
+
+          #result.success {
+            border-left: 4px solid var(--success);
+          }
+
+          #result.error {
+            border-left: 4px solid var(--error);
+          }
+
+          .result-item {
+            margin: 0.5rem 0;
+          }
+
+          .result-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+          }
+
+          .result-value {
+            color: var(--text-primary);
+            word-break: break-all;
+          }
+
+          .result-value a {
+            color: var(--accent);
+            text-decoration: none;
+          }
+
+          .result-value a:hover {
+            text-decoration: underline;
+          }
+
+          @media (max-width: 640px) {
+            body {
+              padding: 1rem;
+            }
+
+            .card {
+              padding: 1.5rem;
+            }
+
+            h1 {
+              font-size: 2rem;
+            }
           }
         </style>
       </head>
       <body>
-        <h1>URL Shortener</h1>
         <div class="container">
-          <h2>Shorten your URL</h2>
-          <input type="text" id="urlInput" placeholder="Enter your URL here (e.g., https://example.com)">
-          <input type="text" id="customCode" placeholder="Custom short code (optional)" class="optional">
-          <p class="optional">Custom code must be 4-10 characters long, using only letters, numbers, underscores, and hyphens</p>
-          <button onclick="shortenUrl()">Shorten URL</button>
-          <div id="result"></div>
+          <h1>URL Shortener</h1>
+          <div class="card">
+            <h2>Shorten your URL</h2>
+            <input type="text" id="urlInput" placeholder="Enter your URL here (e.g., https://example.com)" 
+                   spellcheck="false" autocomplete="off">
+            <input type="text" id="customCode" placeholder="Custom short code (optional)" 
+                   spellcheck="false" autocomplete="off">
+            <p class="optional">Custom code must be 4-10 characters long, using only letters, numbers, underscores, and hyphens</p>
+            <button onclick="shortenUrl()">Shorten URL</button>
+            <div id="result"></div>
+          </div>
         </div>
 
         <script>
@@ -138,20 +263,46 @@ get '/' do
               const data = await response.json();
               
               if (response.ok) {
+                resultDiv.className = 'success';
                 resultDiv.style.display = 'block';
                 resultDiv.innerHTML = `
-                  <p>Original URL: ${data.original_url}</p>
-                  <p>Shortened URL: <a href="${data.shortened_url}" target="_blank">${data.shortened_url}</a></p>
+                  <div class="result-item">
+                    <div class="result-label">Original URL</div>
+                    <div class="result-value">${data.original_url}</div>
+                  </div>
+                  <div class="result-item">
+                    <div class="result-label">Shortened URL</div>
+                    <div class="result-value">
+                      <a href="${data.shortened_url}" target="_blank">${data.shortened_url}</a>
+                    </div>
+                  </div>
                 `;
               } else {
+                resultDiv.className = 'error';
                 resultDiv.style.display = 'block';
-                resultDiv.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                resultDiv.innerHTML = `
+                  <div class="result-item">
+                    <div class="result-value" style="color: var(--error)">Error: ${data.error}</div>
+                  </div>
+                `;
               }
             } catch (error) {
+              resultDiv.className = 'error';
               resultDiv.style.display = 'block';
-              resultDiv.innerHTML = '<p style="color: red;">Error: Something went wrong</p>';
+              resultDiv.innerHTML = `
+                <div class="result-item">
+                  <div class="result-value" style="color: var(--error)">Error: Something went wrong</div>
+                </div>
+              `;
             }
           }
+
+          // Add keyboard shortcut for submitting
+          document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+              shortenUrl();
+            }
+          });
         </script>
       </body>
     </html>
