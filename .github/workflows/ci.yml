@@ -19,8 +19,16 @@ jobs:
         ruby-version: '3.3.0'
         bundler-cache: true
     
+    - name: Update bundle platforms
+      run: |
+        bundle lock --add-platform x86_64-linux
+        bundle lock --add-platform ruby
+        bundle lock --add-platform x64-mingw-ucrt
+    
     - name: Install dependencies
-      run: bundle install
+      run: |
+        bundle config set --local path 'vendor/bundle'
+        bundle install
     
     - name: Run tests
       run: bundle exec rspec

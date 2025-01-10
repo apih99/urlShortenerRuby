@@ -46,7 +46,9 @@ GEM
     tilt (2.5.0)
 
 PLATFORMS
+  ruby
   x64-mingw-ucrt
+  x86_64-linux
 
 DEPENDENCIES
   base62-rb (~> 0.3.1)
