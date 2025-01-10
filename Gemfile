@@ -10,5 +10,4 @@ gem 'base62-rb', '~> 0.3.1'
 group :test do
   gem 'rspec', '~> 3.12'
   gem 'rack-test', '~> 2.1'
-  gem 'database_cleaner-sqlite3', '~> 2.1'
 end 

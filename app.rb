@@ -249,5 +249,5 @@ delete '/:short_code' do
   db.close
   
   status 200
-  content_length 0
+  body ''
 end 

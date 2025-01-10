@@ -1,0 +1,9 @@
+*.db
+*.sqlite3
+*.sqlite
+.env
+/tmp
+.DS_Store
+/coverage
+/log
+*.log 
