@@ -1,0 +1,9 @@
+[build]
+builder = "nixpacks"
+buildCommand = "bundle install"
+
+[deploy]
+startCommand = "bundle exec rackup -p $PORT -o 0.0.0.0"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "on_failure" 

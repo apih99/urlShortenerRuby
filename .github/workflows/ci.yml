@@ -39,6 +39,7 @@ jobs:
     
     - name: Deploy to Railway
       run: |
-        railway up
+        railway link ${{ secrets.RAILWAY_PROJECT_ID }}
+        railway up --detach
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }} 
