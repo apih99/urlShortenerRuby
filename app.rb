@@ -225,6 +225,24 @@ get '/' do
               font-size: 2rem;
             }
           }
+
+          .footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+          }
+
+          .footer a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+          }
+
+          .footer a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+          }
         </style>
       </head>
       <body>
@@ -239,6 +257,9 @@ get '/' do
             <p class="optional">Custom code must be 4-10 characters long, using only letters, numbers, underscores, and hyphens</p>
             <button onclick="shortenUrl()">Shorten URL</button>
             <div id="result"></div>
+          </div>
+          <div class="footer">
+            Made by <a href="https://github.com/apih99" target="_blank">apih99</a>
           </div>
         </div>
 
